@@ -112,3 +112,9 @@ curl --request POST \
   --header 'content-type: application/x-www-form-urlencoded' \
   --data 'grant_type=client_credentials&scope=customScope'
   ```
+
+### Accepted publickey format
+### Currently we support Octa,Ping and Other third parties with following format:-
+1. {"keys":[........,{"kid":"${public_key}"}]} public_key can be the value of kid key
+
+2. {“${public_key}: ......”} public key can be the only key 
