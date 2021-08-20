@@ -113,8 +113,27 @@ curl --request POST \
   --data 'grant_type=client_credentials&scope=customScope'
   ```
 
-### Accepted publickey format
-### Currently we support Octa,Ping and Other third parties with following format:-
-1. {"keys":[........,{"kid":"${public_key}"}]} public_key can be the value of kid key
+### Supported IDP JWK formats(Octa,Ping,other IDPs)
 
-2. {“${public_key}: ......”} public key can be the only key 
+Public key is the property that we use to verify token given in authorization header. Public key url returns public key that is processed further. Following are the suggested formats to be used for public key json to EMG to be able to process public key.
+
+1.We read public key from kid object of produced json by public key url. While constructing public key JSON please include public key in kid object as shown in the following format.
+
+```json
+{
+  "keys":[
+  ........,
+  {"kid":"${public_key}"},
+  ........
+  ]
+  } 
+``` 
+
+2. Another format that we support is keeping the public key as the only key in the JSON produced by public key url.
+
+```json
+{
+  "${public_key}": "......”,
+  .......
+  } 
+```
