@@ -122,9 +122,7 @@ Public key is the property that we use to verify token given in authorization he
 ```json
 {
   "keys":[
-           ........,
-           {"kid":"${public_key}"},
-           ........
+           {"kid":"${public_key}"}
          ]
 } 
 ``` 
@@ -133,7 +131,6 @@ Public key is the property that we use to verify token given in authorization he
 
 ```json
 {
-  "${public_key}": "......”,
-  .......
+  "${public_key}": "......”
 } 
 ```
