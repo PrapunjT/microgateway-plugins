@@ -117,7 +117,7 @@ curl --request POST \
 
 Public key is the property that we use to verify token given in authorization header. Public key url returns public key that is processed further. Following are the suggested formats to be used for public key json to EMG to be able to process public key.
 
-1.We read public key from kid object of produced json by public key url. While constructing public key JSON please include public key in kid object as shown in the following format.
+1. We read public key from kid object of produced json by public key url. While constructing public key JSON please include public key in kid object as shown in the following format.
 
 ```json
 {
