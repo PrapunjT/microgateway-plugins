@@ -36,29 +36,38 @@ module.exports.init = function(config, logger, stats) {
         acceptField.iss = [];
         acceptField.iss[0] = iss;
     }
-
-    request({  // The middleware is supposed to be called much later
-        url: publickey_url,
-        method: 'GET'
-    }, function(err, response, body) {
-        if (err) {
-            debug('publickey gateway timeout');
-            logger.consoleLog('log',{component: CONSOLE_LOG_TAG_COMP}, err);
-        } else {
-            debug("loaded public keys");
-            if (keyType === 'jwk') {
-                debug("keyType is jwk");
-                try {
-                    publickeys = JSON.parse(body);
-                } catch(e) {
-                    logger.consoleLog('log', {component: CONSOLE_LOG_TAG_COMP}, e.message );
-                }                
-            } else {
-                //the body should contain a single pem
-                publickeys = body;
-            }
+    getPk();
+    
+   process.on("message",(msg)=>{
+       if (msg == "reload extauth pk"){
+            getPk();
         }
-    });
+   })
+
+   function getPk() {
+        request({  // The middleware is supposed to be called much later
+            url: publickey_url,
+            method: 'GET'
+        }, function(err, response, body) {
+            if (err) {
+                debug('publickey gateway timeout');
+                logger.consoleLog('log',{component: CONSOLE_LOG_TAG_COMP}, err);
+            } else {
+                debug("loaded public keys");
+                if (keyType === 'jwk') {
+                    debug("keyType is jwk");
+                    try {
+                        publickeys = JSON.parse(body);
+                    } catch(e) {
+                        logger.consoleLog('log', {component: CONSOLE_LOG_TAG_COMP}, e.message );
+                    }                
+                } else {
+                    //the body should contain a single pem
+                    publickeys = body;
+                }
+            }
+        });
+   }
 
     function getJWK(kid) {
         if (publickeys.keys && publickeys.keys.constructor === Array) {
@@ -96,6 +105,7 @@ module.exports.init = function(config, logger, stats) {
             }
         }
         return isValid;
+
     }
 
     return {
