@@ -110,6 +110,7 @@ module.exports.init = function(config, logger, stats) {
                     }
                 } else {
                     var jwtdecode = JWS.parse(jwtpayload[1]);
+                    console.log(jwtdecode);
                     if ( jwtdecode.headerObj ) {
                         var kid = jwtdecode.headerObj.kid;
                         debug("Found jwt kid: " + kid);
